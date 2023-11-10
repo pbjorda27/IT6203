@@ -1,0 +1,7 @@
+<div>
+    <ul *ngFor ="let inspiration of inspiration let i = index">
+        <li> {{inspiration.inspiration}} </li>
+        <button mat-button color="warn" (click)="onDelete(inspiration._id)">DELETE</button>
+        <button mat-button color="accent" [routerLink]="['/editInspiration', inspiration._id]">UPDATE</button>
+    </ul>
+</div>

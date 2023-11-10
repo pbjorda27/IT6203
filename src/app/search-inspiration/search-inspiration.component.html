@@ -1,0 +1,40 @@
+<div class="center-container">
+  <div class="intro-text">
+    <b>Do you need encouragement?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       Are you having a bad day?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Are you looking for some wise words?</b>
+  </div>
+  <p><b>Just search by a keyword to find your inspiration!</b></p>
+  <div>
+    <input type="text" [(ngModel)]="searchText" placeholder="Enter keyword....">
+    <button (click)="onSearch(searchText)">Search</button>
+  </div>
+</div>
+<br>
+<div *ngIf="searchPerformed">
+  <ng-container *ngIf="selectedInspiration$ | async as selectedInspiration; else noInspiration">
+    <div *ngIf="selectedInspiration && selectedInspiration.length > 0" class="inspiration-banner">
+      <p class="banner-title">Inspiration:</p>
+      <p class="banner-text">{{ selectedInspiration[0].inspiration }}</p>
+    </div>
+  </ng-container>
+  <ng-template #noInspiration>
+    <p class="no-inspiration">No inspiration found for the provided keyword</p>
+    <div class="center-container">
+      <p class="add-inspiration-link">
+        Select below to Add an Inspiration for future visitors
+        <br><br>
+        <button (click)="goToAddInspiration()">Add Inspiration</button>
+      </p>
+    </div>
+  </ng-template>
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+.inspiration-banner {
+  background-color: #081b6e;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-top: auto; /* Push the banner to the bottom */
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Adjusted to space-between */
+  align-items: center;
+  height: 100vh;
+}
+
+.center-container {
+  text-align: center;
+}
+
+.center-container > div,
+.center-container > p,
+.center-container > div > input,
+.center-container > div > button,
+.center-container .add-inspiration-link {
+  margin: 10px 0;
+}
+
+.no-inspiration {
+  text-align: center;
+  margin: 0;
+  background-color: red; /* Add a background color for visibility */
+  color: white; /* Set text color to white for visibility */
+}
+.intro-text {
+  font-size: 1.2em;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.add-inspiration-link {
+  text-align: center;
+  margin-top: 10px;
+}
