@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const inspirationSchema = new mongoose.Schema({
     inspiration:  { type: String, required: true},
     keyword1:  { type: String, required: true},
-    keyword2:  { type: String, required: false},
-    keyword3:  { type: String, required: false}
+    keyword2:  { type: String, required: true},
+    keyword3:  { type: String, required: true}
 });
 
 //use the blueprint to create the model 

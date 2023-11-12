@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InspirationService } from '../inspiration.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-add-inspiration',
@@ -10,40 +11,46 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class AddInspirationComponent implements OnInit {
 
-  @Input() inspiration: string = "";
-  @Input() keyword1: string = "";
-  @Input() keyword2: string = "";
-  @Input() keyword3: string = "";
+  myForm: FormGroup;
 
-  public mode = 'Add'; //default mode
-  private id: any; //inspriation ID
-  private inspiration1: any;
+  inspiration1: any;
+  public mode = 'Add';
+  private id: any;
 
-  constructor(private _myService: InspirationService, private router: Router, public route: ActivatedRoute) { }
+  constructor(
+    private _myService: InspirationService,
+    private router: Router,
+    public route: ActivatedRoute,
+    private fb: FormBuilder
+  ) {
+    this.myForm = this.fb.group({
+      Inspiration: ['', [Validators.required]],
+      keyword1: ['', [Validators.required]],
+      keyword2: ['', [Validators.required]],
+      keyword3: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('_id')) {
-        this.mode = 'Edit'; /*request had a parameter _id */
+        this.mode = 'Edit';
         this.id = paramMap.get('_id');
 
-        //request inspiration info based on the id
         this._myService.getInspiration1(this.id).subscribe(
           data => {
-            //read data and assign to private variable inspiration
             this.inspiration1 = data;
-            //populate the firstName and lastName on the page
-            //notice that this is done through the two-way bindings
-            this.inspiration = this.inspiration1.inspiration;
-            this.keyword1 = this.inspiration1.keyword1;
-            this.keyword2 = this.inspiration1.keyword2;
-            this.keyword3 = this.inspiration1.keyword3;
+            this.myForm.patchValue({
+              Inspiration: this.inspiration1.inspiration,
+              keyword1: this.inspiration1.keyword1,
+              keyword2: this.inspiration1.keyword2,
+              keyword3: this.inspiration1.keyword3,
+            });
           },
           err => console.error(err),
           () => console.log('finished loading')
         );
-      }
-      else {
+      } else {
         this.mode = 'Add';
         this.id = null;
       }
@@ -51,21 +58,37 @@ export class AddInspirationComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("You submitted: " + this.inspiration + " " + this.keyword1 + " " + this.keyword2 + " " + this.keyword3);
-    if (this.mode == 'Add')
-      this._myService.addInspiration(this.inspiration, this.keyword1, this.keyword2, this.keyword3);
-    if (this.mode == 'Edit')
-      this._myService.updateInspiration(this.id, this.inspiration, this.keyword1, this.keyword2, this.keyword3);
-    this.router.navigate(['listInspiration']);
-  }
+    console.log('Form Status:', this.myForm.status);
+    console.log('Form Controls:', this.myForm.controls);
 
-  transformToUpperCase(value: string): string {
-    return value.toUpperCase();
+    if (this.myForm.valid) {
+      console.log("You submitted: " + this.myForm.value.Inspiration + " "
+                                    + this.myForm.value.keyword1 + " "
+                                    + this.myForm.value.keyword2 + " "
+                                    + this.myForm.value.keyword3);
+
+      if (this.mode === 'Add') {
+        this._myService.addInspiration(
+          this.myForm.value.Inspiration,
+          this.myForm.value.keyword1,
+          this.myForm.value.keyword2,
+          this.myForm.value.keyword3
+        );
+      } else if (this.mode === 'Edit') {
+        this._myService.updateInspiration(
+          this.id,
+          this.myForm.value.Inspiration,
+          this.myForm.value.keyword1,
+          this.myForm.value.keyword2,
+          this.myForm.value.keyword3
+        );
+      }
+
+      this.router.navigate(['listInspiration']);
+    }
   }
 
   onCancel() {
-    // Navigate back to the searchInspiration page
-    this.router.navigate(['/searchInspiration']); // Adjust the route as needed
+    this.router.navigate(['/searchInspiration']);
   }
-
 }

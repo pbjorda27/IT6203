@@ -1,24 +1,37 @@
 <div>
-    <h3>{{mode}} Inspiration</h3>
-    <form (ngSubmit)="onSubmit()" #myForm="ngForm">
-        <mat-form-field class="input-field">
-            <input matInput placeholder="Inspiration" id="Inspiration" [(ngModel)]="inspiration" name="Inspiration">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="KeyWord 1 (required)" id="keyword1" [(ngModel)]="keyword1" name="keyword1">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="KeyWord 2" id="keyword2" [(ngModel)]="keyword2" name="keyword2">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="KeyWord 3" id="keyword3" [(ngModel)]="keyword3" name="keyword3">
-        </mat-form-field>
-        <p>
-            <button type="submit" mat-raised-button color="primary">Submit</button>&nbsp;&nbsp;&nbsp;
-            <button type="button" mat-raised-button (click)="onCancel()">Cancel</button>
-        </p>
+    <h3>{{ mode }} Inspiration</h3>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="input-field">
+        <input matInput placeholder="Inspiration" id="Inspiration" formControlName="Inspiration">
+        <mat-error *ngIf="myForm.get('Inspiration')?.hasError('required')">
+          Inspiration is required.
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="KeyWord 1 (required)" id="keyword1" formControlName="keyword1">
+        <mat-error *ngIf="myForm.get('keyword1')?.hasError('required')">
+          Keyword 1 is required.
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="KeyWord 2 (required)" id="keyword2" formControlName="keyword2">
+        <mat-error *ngIf="myForm.get('keyword2')?.hasError('required')">
+          Keyword 2 is required.
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="KeyWord 3 (required)" id="keyword3" formControlName="keyword3">
+        <mat-error *ngIf="myForm.get('keyword3')?.hasError('required')">
+          Keyword 3 is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <p>
+        <button type="submit" mat-raised-button color="primary">Submit</button>&nbsp;&nbsp;&nbsp;
+        <button type="button" mat-raised-button (click)="onCancel()">Cancel</button>
+      </p>
     </form>
-</div>
+  </div>

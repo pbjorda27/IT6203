@@ -17,6 +17,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListInspirationComponent } from './list-inspiration/list-inspiration.component';
 import { NotFoundComponent } from './not-found/not-found.component'
 import { SearchInspirationComponent } from './search-inspiration/search-inspiration.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [ {
   path: '',  //default component to display
@@ -60,7 +61,8 @@ const appRoutes: Routes = [ {
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule
   ],
   providers: [InspirationService],
   bootstrap: [AppComponent]
