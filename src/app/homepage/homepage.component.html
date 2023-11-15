@@ -1,22 +1,21 @@
-<h1>Welcome to MySite</h1>
 <div>
     <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>menu</mat-icon>
-        <span>Menu</span>
     </button>
-    
+    <span style="font-size: 30px">Menu</span>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/searchInspiration">
-            <span>Inspiration</span>
-        </button>
         <button mat-menu-item routerLink="/addEvent">
             <span>Events</span>
+        </button>
+        <button mat-menu-item routerLink="/addContact">
+            <span>Contacts</span>
         </button>
         <button mat-menu-item routerLink="/addSkill">
             <span>Skills</span>
         </button>
-        <button mat-menu-item routerLink="/addSkill">
-            <span>Contacts</span>
-        </button>
+        <button mat-menu-item routerLink="/searchInspiration">
+            <span>Inspiration</span>
+        </button>   
     </mat-menu>
     </div>
+    <h1 style="font-size: 60px; color: blue; text-align: center;">Welcome to MySite</h1>
