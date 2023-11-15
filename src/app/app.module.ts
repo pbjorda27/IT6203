@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatButtonModule } from '@angular/material/button';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
+import { Navigation1MenuComponent } from './navigation1-menu/navigation1-menu.component';
+import { Navigation2MenuComponent } from './navigation2-menu/navigation2-menu.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,27 +20,55 @@ import { ListInspirationComponent } from './list-inspiration/list-inspiration.co
 import { NotFoundComponent } from './not-found/not-found.component'
 import { SearchInspirationComponent } from './search-inspiration/search-inspiration.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ListSkillComponent } from './list-skill/list-skill.component';
+import { AddSkillComponent } from './add-skill/add-skill.component';
+import { ListEventsComponent } from './list-events/list-events.component';
+import { NewEventFormComponent } from './new-event-form/new-event-form.component';
+import { MatSelectModule } from '@angular/material/select';
+import { EventService } from './event.service';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { HomepageComponent } from './homepage/homepage.component';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
-const appRoutes: Routes = [ {
-  path: '',  //default component to display
-  component: SearchInspirationComponent
+const appRoutes: Routes = [
+  {
+  path: '', 
+  component: HomepageComponent
 }, {
-  path: 'addInspiration',  //when inspiration added 
+  path: 'addInspiration',   
   component: AddInspirationComponent
 }, {
-  path: 'searchInspiration', //when inspiration is searched
+  path: 'homePage',
+  component: HomepageComponent
+}, {
+  path: 'searchInspiration', 
   component: SearchInspirationComponent
 }, {
-  path: 'listInspiration',  //when inspiration listed
+  path: 'listInspiration', 
   component: ListInspirationComponent
 }, {
-  path: 'editInspiration/:_id', //when inspiration edited 
-  component: AddInspirationComponent 
+  path: 'editInspiration/:_id', 
+  component: AddInspirationComponent
 }, {
-  path: '**',  //when path cannot be found
-  component: NotFoundComponent
-}, 
-   
+  path: 'addEvent',
+  component: NewEventFormComponent,
+}, {
+  path: 'editEvent/:_id',
+  component: NewEventFormComponent,
+}, {
+  path: 'listEvents',
+  component: ListEventsComponent,
+}, {
+  path: 'addSkill',
+  component: AddSkillComponent,
+}, {
+  path: 'listSkill',
+  component: ListSkillComponent,
+}, {
+  path: '**', 
+  component: NotFoundComponent,
+}
+
 ];
 
 @NgModule({
@@ -46,9 +76,16 @@ const appRoutes: Routes = [ {
     AppComponent,
     AddInspirationComponent,
     NavigationMenuComponent,
+    Navigation1MenuComponent,
+    Navigation2MenuComponent,
     ListInspirationComponent,
     SearchInspirationComponent,
-    NotFoundComponent
+    ListSkillComponent,
+    AddSkillComponent,
+    NotFoundComponent,
+    NewEventFormComponent,
+    ListEventsComponent,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,9 +99,14 @@ const appRoutes: Routes = [ {
     MatMenuModule,
     MatIconModule,
     RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
-  providers: [InspirationService],
+  providers: [InspirationService, EventService],
   bootstrap: [AppComponent]
 
 })

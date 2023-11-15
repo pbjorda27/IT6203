@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "inspiration": {
+    "students": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/inspiration",
+            "outputPath": "dist/students",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "inspiration:build:production"
+              "browserTarget": "students:build:production"
             },
             "development": {
-              "browserTarget": "inspiration:build:development"
+              "browserTarget": "students:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "inspiration:build"
+            "browserTarget": "students:build"
           }
         },
         "test": {
@@ -96,6 +96,6 @@
     }
   },
   "cli": {
-    "analytics": "cd7b8a1b-5141-4ff7-a943-b2ab75cb6be4"
+    "analytics": "6740e17e-2be1-48f7-84fa-0237c1fd2bbd"
   }
 }

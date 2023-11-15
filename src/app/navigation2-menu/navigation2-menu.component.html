@@ -1,0 +1,21 @@
+<div>
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+    <span>Menu</span>
+</button>
+<mat-menu #menu="matMenu">
+<button mat-menu-item routerLink="/homePage">
+    <span>Home</span>
+</button>
+<button mat-menu-item routerLink="/listSkill">
+    <span>List Skills</span>
+</button>
+<button mat-menu-item routerLink="/addSkills">
+    <span>Add Skills</span>
+</button>
+ </mat-menu>
+<br>
+<br>
+<br> <!-- Add a line break here -->
+</div>
+

@@ -1,9 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const { MongoClient, ObjectId } = require('mongoose');
+const port = 4000;
+const dbName = 'personal-skillsite';
 const mongoose = require('mongoose');
 //specify where to find the schema
 const Inspiration = require('./models/inspiration')
+//specify where to find the schema
+const Event = require("./models/events")
 //connect and display the status 
 mongoose.connect('mongodb+srv://IT6203Group4:IT6203Group4@cluster0.yljwyos.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
      .then(() => { console.log("connected"); })
@@ -130,7 +135,174 @@ app.get('/inspiration/:id', (req, res, next) => {
         res.status(500).json(err);
     });
 });
-     
+    
+// CRUD operations
+// Read
+//find a event based on the id
+app.get("/events/:id", (req, res, next) => {
+    //call mongoose method findOne (MongoDB db.Events.findOne())
+    Event.findOne({ _id: req.params.id })
+      //if data is returned, send data as a response
+      .then((data) => {
+        res.status(200).json(data);
+        console.log(data);
+      })
+      //if error, send internal server error
+      .catch((err) => {
+        console.log("Error: ${err}");
+        res.status(500).json(err);
+      });
+  });
+  app.get("/events", (req, res, next) => {
+    //call mongoose method find (MongoDB db.Students.find())
+    Event.find()
+      //if data is returned, send data as a response
+      .then((data) => res.status(200).json(data))
+      //if error, send internal server error
+      .catch((err) => {
+        console.log("Error: ${err}");
+        res.status(500).json(err);
+      });
+  });
+  
+  // Create
+  app.post("/events", (req, res, next) => {
+    // create a new event variable and save request’s fields
+    const event = new Event({
+      eventTitle: req.body.eventTitle,
+      eventDate: req.body.eventDate,
+      eventLength: req.body.eventLength,
+      eventTime: req.body.eventTime,
+    });
+    //send the document to the database
+    event
+      .save()
+      //in case of success
+      .then(() => {
+        console.log("Success");
+      })
+      //if error
+      .catch((err) => {
+        console.log("Error:" + err);
+      });
+  });
+  
+  // Update
+  app.put("/events/:id", (req, res, next) => {
+    console.log("id: " + req.params.id);
+    // check that the parameter id is valid
+    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+      Event.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            eventTitle: req.body.eventTitle,
+            eventDate: req.body.eventDate,
+            eventLength: req.body.eventLength,
+            eventTime: req.body.eventTime,
+          },
+        },
+        { new: true }
+      )
+        .then((event) => {
+          if (event) {
+            //what was updated
+            console.log(event);
+          } else {
+            console.log("no data exist for this id");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("please provide correct id");
+    }
+  });
+  
+  // Delete
+  app.delete("/events/:id", (req, res, next) => {
+    Event.deleteOne({ _id: req.params.id }).then((result) => {
+      console.log(result);
+      res.status(200).json("Deleted!");
+    });
+  });
+
+  app.get('/skills', async (req, res, next) => {
+    const client = new MongoClient(url, { useUnifiedTopology: true });
+  
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+      const skills = await db.collection('projects').find().toArray();
+      res.json(skills);
+    } finally {
+      await client.close();
+    }
+  });
+  
+  // Create (Add)
+  app.post('/api/skills', async (req, res) => {
+    const newSkill = req.body; // Assuming the skill data is sent in the request body
+    const client = new MongoClient(url, { useUnifiedTopology: true });
+  
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+      const result = await db.collection('projects').insertOne(newSkill);
+      res.json(result.ops[0]);
+    } finally {
+      await client.close();
+    }
+  });
+  
+  // Update
+  app.put('/api/skills/:id', async (req, res) => {
+    const skillId = req.params.id;
+    const updatedSkill = req.body;
+    const client = new MongoClient(url, { useUnifiedTopology: true });
+  
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+      const result = await db
+        .collection('projects')
+        .updateOne({ _id: ObjectId(skillId) }, { $set: updatedSkill });
+  
+      if (result.modifiedCount === 1) {
+        res.json({ message: 'Skill updated successfully' });
+      } else {
+        res.status(404).json({ message: 'Skill not found' });
+      }
+    } finally {
+      await client.close();
+    }
+  });
+  
+  // Delete
+  app.delete('/api/skills/:id', async (req, res) => {
+    const skillId = req.params.id;
+    const client = new MongoClient(url, { useUnifiedTopology: true });
+  
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+      const result = await db.collection('projects').deleteOne({ _id: ObjectId(skillId) });
+  
+      if (result.deletedCount === 1) {
+        res.json({ message: 'Skill deleted successfully' });
+      } else {
+        res.status(404).json({ message: 'Skill not found' });
+      }
+    } finally {
+      await client.close();
+    }
+  });
+  
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+  
 
 //to use this middleware in other parts of the application
 module.exports = app;

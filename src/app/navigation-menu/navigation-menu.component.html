@@ -1,17 +1,21 @@
 <div>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-        <span>Menu</span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span style="font-size: 30px">Menu</span>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/homePage">
+      <span>Home</span>
     </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink = "/searchInspiration">
-            <span>Search Inspiration</span>
-        </button>
-        <button mat-menu-item routerLink = "/listInspiration">
-            <span>List Inspiration</span>
-        </button>
-        <button mat-menu-item routerLink = "/addInspiration">
-            <span>Add Inspiration</span>
-        </button>
-    </mat-menu>
-    </div>
+    <button mat-menu-item routerLink="/addInspiration">
+      <span>Add Inspiration</span>
+    </button>
+    <button mat-menu-item routerLink="/listInspiration">
+      <span>List Inspiration</span>
+    </button>
+    <button mat-menu-item routerLink="/searchInspiration">
+      <span>Search Inspiration</span>
+    </button>
+  </mat-menu>
+</div>
