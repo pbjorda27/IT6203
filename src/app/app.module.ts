@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,  HttpClientJsonpModule } from '@angular/common/http';
 import { InspirationService } from './inspiration.service';
 import { AddInspirationComponent } from './add-inspiration/add-inspiration.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,6 +29,8 @@ import { EventService } from './event.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { HomepageComponent } from './homepage/homepage.component';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { VideoSearchComponent } from './video-search/video-search.component';
 
 const appRoutes: Routes = [
   {
@@ -65,9 +67,12 @@ const appRoutes: Routes = [
   path: 'listSkill',
   component: ListSkillComponent,
 }, {
+  path: 'video-search',
+  component: VideoSearchComponent
+}, {
   path: '**', 
   component: NotFoundComponent,
-}
+},
 
 ];
 
@@ -86,12 +91,15 @@ const appRoutes: Routes = [
     NewEventFormComponent,
     ListEventsComponent,
     HomepageComponent,
-  ],
+    VideoSearchComponent
+    ],
   imports: [
     BrowserModule,
+    NgxSpinnerModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
