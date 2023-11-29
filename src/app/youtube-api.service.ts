@@ -18,6 +18,7 @@ export class YoutubeApiService {
     params = params.set('part', 'snippet');
     params = params.set('type', 'video');
     params = params.set('key', 'AIzaSyC8G-MXndLO78VmUnSWUbJpW7_7nDd5GTM');
+    params = params.set('maxResults', '15');
 
     return this.http.get<any>(this.apiUrl, { params })
       .pipe(

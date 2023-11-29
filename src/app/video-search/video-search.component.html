@@ -1,35 +1,40 @@
-<div class="content-container">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
+<!-- video-search.component.html -->
+
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>menu</mat-icon>
 </button>
 <span style="font-size: 30px">Menu</span>
 <mat-menu #menu="matMenu">
   <button mat-menu-item routerLink="/homepage">
     <span>Home</span>
-</button>  
-    <button mat-menu-item routerLink="/addEvent">
-        <span>Events</span>
-    </button>
-    <button mat-menu-item routerLink="/addContact">
-        <span>Contacts</span>
-    </button>
-    <button mat-menu-item routerLink="/addSkill">
-        <span>Skills</span>
-    </button>
-    <button mat-menu-item routerLink="/searchInspiration">
-        <span>Inspiration</span>
-    </button>     
+  </button>  
+  <button mat-menu-item routerLink="/addEvent">
+    <span>Events</span>
+  </button>
+  <button mat-menu-item routerLink="/addContact">
+    <span>Contacts</span>
+  </button>
+  <button mat-menu-item routerLink="/addSkill">
+    <span>Skills</span>
+  </button>
+  <button mat-menu-item routerLink="/searchInspiration">
+    <span>Inspiration</span>
+  </button>     
 </mat-menu>
-<div>
-  <input type="text" [(ngModel)]="searchQuery" placeholder="Enter search query" />
-  <button (click)="search()">Search</button>
-</div>
+<br><br>
+<div class="search-container">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Enter search query" />
+    <button class="search-button" (click)="search()">Search</button>
+  </div>
 
-<div *ngFor="let video of videos">
-  <!-- Display video information as needed -->
-  <h3>{{ video.snippet.title }}</h3>
-  <img [src]="video.snippet.thumbnails.default.url" alt="{{ video.snippet.title }}" />
-</div>
 
-   
+
+<div class="video-grid">
+  <div *ngFor="let video of videos" class="video-item">
+    <!-- Display video information as needed -->
+    <div>
+      <h3>{{ video.snippet.title }}</h3>
+      <img [src]="video.snippet.thumbnails.default.url" alt="{{ video.snippet.title }}" />
+    </div>
+  </div>
 </div>

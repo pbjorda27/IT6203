@@ -1,5 +1,51 @@
-.content-container{
-    width: 100%;
-    padding: 15px;
-    margin-top: 80px;
-}
+/* video-search.component.css */
+
+.content-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  input {
+    padding: 10px;
+    margin-right: 10px;
+  }
+  
+  button.search-button {
+    padding: 10px;
+    background-color: #4285f4;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .video-item {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px; /* Add margin to separate the search bar from videos */
+  }
+  
+  h3 {
+    margin-top: 20px;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  
