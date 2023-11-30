@@ -2,13 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const { MongoClient, ObjectId } = require('mongoose');
-const port = 4000;
-const dbName = 'personal-skillsite';
+const port = 8000;
 const mongoose = require('mongoose');
 //specify where to find the schema
 const Inspiration = require('./models/inspiration')
 //specify where to find the schema
 const Event = require("./models/events")
+//specify where to find the schema
+const Skill = require('./models/skill')
 //connect and display the status 
 mongoose.connect('mongodb+srv://IT6203Group4:IT6203Group4@cluster0.yljwyos.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
      .then(() => { console.log("connected"); })
@@ -228,17 +229,16 @@ app.get("/events/:id", (req, res, next) => {
     });
   });
 
-  app.get('/skills', async (req, res, next) => {
-    const client = new MongoClient(url, { useUnifiedTopology: true });
-  
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-      const skills = await db.collection('projects').find().toArray();
-      res.json(skills);
-    } finally {
-      await client.close();
-    }
+  app.get('/skills', (req, res, next) => {
+    // Call the mongoose method find (MongoDB db.Skills.find())
+    Skill.find()
+      // If data is returned, send data as a response 
+      .then(data => res.status(200).json(data))
+      // If error, send internal server error
+      .catch(err => {
+        console.log(`Error: ${err}`);
+        res.status(500).json(err);
+      });
   });
   
   // Create (Add)
@@ -302,7 +302,82 @@ app.get("/events/:id", (req, res, next) => {
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
-  
-
+  //in the app.get() method below we add a path for the skills API 
+//by adding /skills, we tell the server that this method will be called every time http://localhost:8000/skills is requested. 
+app.get('/skills', (req, res, next) => {
+  //call mongoose method find (MongoDB db.Skills.find())
+Skill.find() 
+//if data is returned, send data as a response 
+.then(data => res.status(200).json(data))
+//if error, send internal server error
+.catch(err => {
+console.log('Error: ${err}');
+res.status(500).json(err);
+});
+});
+//serve incoming post requests to /skills
+app.post('/skills', (req, res, next) => {
+ // create a new skill variable and save request’s fields 
+const skill = new Skill({
+   skill: req.body.skill,
+   level: req.body.level
+});
+//send the document to the database 
+skill.save()
+   //in case of success
+   .then(() => { console.log('Success');})
+   //if error
+   .catch(err => {console.log('Error:' + err);});
+});
+//:id is a dynamic parameter that will be extracted from the URL
+app.delete("/skills/:id", (req, res, next) => {
+   Skill.deleteOne({ _id: req.params.id }).then(result => {
+       console.log(result);
+       res.status(200).json("Deleted!");
+   });
+});
+//serve incoming put requests to /skills 
+app.put('/skills/:id', (req, res, next) => { 
+   console.log("id: " + req.params.id) 
+   // check that the parameter id is valid 
+   if (mongoose.Types.ObjectId.isValid(req.params.id)) { 
+       //find a document and set new skill and level 
+       Skill.findOneAndUpdate( 
+           {_id: req.params.id}, 
+           {$set:{ 
+               skill : req.body.skill, 
+               level : req.body.level 
+           }}, 
+           {new:true} 
+       ) 
+       .then((skill) => { 
+           if (skill) { //what was updated 
+               console.log(skill); 
+           } else { 
+               console.log("no data exist for this id"); 
+           } 
+       }) 
+       .catch((err) => { 
+           console.log(err); 
+       }); 
+   } else { 
+       console.log("please provide correct id"); 
+   } 
+});
+//find a skill based on the id
+app.get('/skills/:id', (req, res, next) => {
+   //call mongoose method findOne (MongoDB db.Skills.findOne())
+   Skill.findOne({_id: req.params.id}) 
+       //if data is returned, send data as a response 
+       .then(data => {
+           res.status(200).json(data)
+           console.log(data);
+       })
+       //if error, send internal server error
+       .catch(err => {
+       console.log('Error: ${err}');
+       res.status(500).json(err);
+   });
+});
 //to use this middleware in other parts of the application
 module.exports = app;

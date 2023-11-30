@@ -1,0 +1,14 @@
+<app-navigation3-menu></app-navigation3-menu>
+<br>
+<h2>All Current Skills</h2>
+<div>
+    <ul *ngFor="let skill of skills; let i = index">
+        <li>
+            <span style="font-weight: bold;">Skill:</span> {{ skill.skill }} |
+            <span style="font-weight: bold;">Experience Level:</span> {{ skill.level }} 
+        </li>
+        <br>
+        <button mat-button color="warn" (click)="onDelete(skill._id)">DELETE</button>
+        <button mat-button color="accent" [routerLink]="['/editskill', skill._id]">UPDATE</button>
+    </ul>
+</div>

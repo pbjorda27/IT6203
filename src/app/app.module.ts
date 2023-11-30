@@ -20,8 +20,8 @@ import { ListInspirationComponent } from './list-inspiration/list-inspiration.co
 import { NotFoundComponent } from './not-found/not-found.component'
 import { SearchInspirationComponent } from './search-inspiration/search-inspiration.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ListSkillComponent } from './list-skill/list-skill.component';
-import { AddSkillComponent } from './add-skill/add-skill.component';
+import { ListSkillsComponent } from './list-skills/list-skills.component';;
+import { AddSkillFormComponent } from './add-skill-form/add-skill-form.component';
 import { ListEventsComponent } from './list-events/list-events.component';
 import { NewEventFormComponent } from './new-event-form/new-event-form.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -31,6 +31,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { VideoSearchComponent } from './video-search/video-search.component';
+import { SkillsService } from './skills.service';
+import { Navigation3MenuComponent } from './navigation3-menu/navigation3-menu.component';
 
 const appRoutes: Routes = [
   {
@@ -61,15 +63,18 @@ const appRoutes: Routes = [
   path: 'listEvents',
   component: ListEventsComponent,
 }, {
-  path: 'addSkill',
-  component: AddSkillComponent,
-}, {
-  path: 'listSkill',
-  component: ListSkillComponent,
-}, {
   path: 'video-search',
   component: VideoSearchComponent
 }, {
+  path: 'listskills',  //when skills listed 
+  component: ListSkillsComponent
+}, {
+  path: 'addskills',  //when skills added
+  component: AddSkillFormComponent
+}, {
+  path: 'editskill/:_id', //when students edited 
+  component: AddSkillFormComponent 
+},{
   path: '**', 
   component: NotFoundComponent,
 },
@@ -83,10 +88,11 @@ const appRoutes: Routes = [
     NavigationMenuComponent,
     Navigation1MenuComponent,
     Navigation2MenuComponent,
+    Navigation3MenuComponent,
     ListInspirationComponent,
     SearchInspirationComponent,
-    ListSkillComponent,
-    AddSkillComponent,
+    AddSkillFormComponent,
+    ListSkillsComponent,
     NotFoundComponent,
     NewEventFormComponent,
     ListEventsComponent,
@@ -114,7 +120,7 @@ const appRoutes: Routes = [
       useFactory: adapterFactory,
     }),
   ],
-  providers: [InspirationService, EventService],
+  providers: [InspirationService, EventService, SkillsService],
   bootstrap: [AppComponent]
 
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
-import { SkillService } from './skill.servive';
+import { SkillsService } from './skills.service';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -30,7 +30,7 @@ export class AppComponent {
   softSkills: string[] = ['Problem Solving', 'Communication', 'Team Work'];
   proficiencyLevels: string[] = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
 
-  constructor(private _myService: SkillService, private router: Router) { }
+  constructor(private _myService: SkillsService, private router: Router) { }
 
   ngOnInit() {
     this.skillForm = new FormGroup({

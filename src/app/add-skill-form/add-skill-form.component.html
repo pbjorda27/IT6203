@@ -1,0 +1,23 @@
+<app-navigation3-menu></app-navigation3-menu>
+<br>
+<div>
+    <h1>{{ mode }} Skill</h1>
+    <form (ngSubmit)="onSubmit()" #myForm="ngForm">
+        <mat-form-field>
+            <input matInput placeholder="Skill" id="skill" [(ngModel)]="skill" name="skill">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label *ngIf="!level">Level</mat-label>
+            <mat-select placeholder="Select Level" id="level" [(ngModel)]="level" name="level" floatLabel="auto">
+                <mat-option value="Beginner">Beginner</mat-option>
+                <mat-option value="Intermediate">Intermediate</mat-option>
+                <mat-option value="Advanced">Advanced</mat-option>
+                <mat-option value="Expert">Expert</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <p>
+            <button type="submit" mat-raised-button color="primary">Submit</button>
+        </p>
+    </form>
+</div>
